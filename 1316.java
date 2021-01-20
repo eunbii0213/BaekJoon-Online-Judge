@@ -41,7 +41,6 @@ public class Main{
 		}
 			
 			System.out.println(sum); //그룹단어 몇 개인지 출력
-        
 			
 	}
 }
