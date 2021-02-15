@@ -38,21 +38,7 @@ public class Main{
 			if(four<min && four>=0) {
 				min=four;
 				}
-		
-			
-			int five = (int) Math.sqrt((two*two)+(one*one));
-			
-			int six = (int) Math.sqrt((x*x)+(y*y));
-			
-			
-			if(five<min && five>=0) {
-				min=five;
-			}
-			
-			if(six<min && six>=0) {
-				min=six;
-			}
-			
+	
 			
 			System.out.println(min);
 			
