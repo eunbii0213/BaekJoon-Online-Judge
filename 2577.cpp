@@ -8,7 +8,6 @@
 #include <cstring>
 
 
-
 int main()
 {
 	using namespace std;
