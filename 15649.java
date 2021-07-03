@@ -11,9 +11,11 @@ public class Main{
 	static StringBuilder sb = new StringBuilder();
 	static int arr[]; //1 2 3 4 같은 수 담을 배열
 	static boolean visit[]; //다 false로 초기화 되어있음
+	static int N;
+	static int M;
 	//N>=M
 	
-	public static void dfs(int N, int M, int depth) {
+	public static void dfs(int depth) {
 		
 		if(depth == M) {
 			
@@ -35,7 +37,7 @@ public class Main{
 				visit[i]=true; //방문했음
 				arr[depth]=i+1; //arr채워넣음 
 				
-				dfs(N,M,depth+1);
+				dfs(depth+1);
 				
 				visit[i]=false; //초기화
 			}//방문 안 했다면
@@ -51,14 +53,14 @@ public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine()," ");
 		
-		int N = Integer.parseInt(st.nextToken());
-		int M = Integer.parseInt(st.nextToken());
+		 N = Integer.parseInt(st.nextToken());
+		 M = Integer.parseInt(st.nextToken());
 		
 		arr = new int[M]; // M갯수만큼 넣고 출력하고를 반복할것임
 		visit = new boolean[N]; // N개만큼 필요(중복값확인배열)
 		
 		
-		dfs(N,M,0);
+		dfs(0);
 		System.out.print(sb);
 	}
 
