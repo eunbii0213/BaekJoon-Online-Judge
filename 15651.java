@@ -8,49 +8,60 @@ import java.util.StringTokenizer;
 
 public class Main{
 	
-	static int[] arr;
-	static boolean[] visit;
-	static StringBuilder sb;
+	static StringBuilder sb = new StringBuilder();
+	static int arr[]; //1 2 3 4 같은 수 담을 배열
+	static boolean visit[]; //다 false로 초기화 되어있음
+	static int N;
+	static int M;
 	
-	public static void dfs(int N, int M, int depth) {
+	//N>=M
+	
+	public static void dfs(int depth) {
+		
 		if(depth == M) {
+			
 			for(int i=0;i<M;i++) {
-				sb.append(arr[i]+" ");
-			}
-			sb.append("\n");
-			return;
-		}
-		
-		
-		else {
-			for(int i=0;i<N;i++) {
 				
-					arr[depth] = i+1;
-					dfs(N,M,depth+1);
-					
-					
-				}
+				sb.append(arr[i]).append(' ');
+			
+			}
+			
+			sb.append("\n");
+			
+			return;
+		} //종료조건
 		
-		}
+		for(int i=0; i<N; i++) {
+			
+			 //방문했음
+				arr[depth]=i+1; //arr채워넣음 
+				
+				
+				dfs(depth+1);
+				
+				
+		} //for문 끝
 	}
 	
 	
-
+	
+	
 public static void main(String[] args) throws IOException {
 		
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer str = new StringTokenizer(br.readLine());
-		 sb = new StringBuilder();
+		StringTokenizer st = new StringTokenizer(br.readLine()," ");
 		
-		int N = Integer.parseInt(str.nextToken());
-		int M = Integer.parseInt(str.nextToken());
+		 N = Integer.parseInt(st.nextToken());
+		 M = Integer.parseInt(st.nextToken());
 		
-		arr = new int[M];
-		visit = new boolean[N];
+		arr = new int[M]; // M갯수만큼 넣고 출력하고를 반복할것임
+		visit = new boolean[N]; // N개만큼 필요(중복값확인배열)
 		
-		dfs(N,M,0);
-		System.out.println(sb);
+		
+		dfs(0);
+		System.out.print(sb);
+		
 	}
 
 }
