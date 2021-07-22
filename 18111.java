@@ -18,7 +18,7 @@ public class Main{
 	static int nowB;
 	
 	static int[][] arr;//건드리지 않을 배열 
-	static int[][] countArr;
+	
 	
 	static int minHeight=256; //무조건 바뀌게 수를 둠
 	static int maxHeight=0; //무조건 바뀌게 수를 둠 
@@ -43,13 +43,13 @@ public static void main(String[] args) throws IOException {
 	 B= Integer.parseInt(st.nextToken());
 	 
 	 arr = new int[N][M];
-	 countArr = new int[N][M];
+	 
 	 
 	 for(int i=0;i<N;i++) {
 		 st = new StringTokenizer(br.readLine());
 		 for(int j=0;j<M;j++) {
 			 arr[i][j] = Integer.parseInt(st.nextToken());
-			 countArr[i][j]=arr[i][j];
+			 
 			 
 			 if(minHeight>arr[i][j]) {
 				 minHeight=arr[i][j];
@@ -65,7 +65,7 @@ public static void main(String[] args) throws IOException {
 	 
 	 nowHeight = minHeight;
 	 resultHeight = minHeight;
-	 minCount=999999999;
+	 minCount=999999999; //값 무조건 바뀌게 설정 
 		
 	 //nowB=B;
 	 
@@ -73,54 +73,48 @@ public static void main(String[] args) throws IOException {
 	 while(nowHeight<=maxHeight) {
 		 
 		 count=0;
-		 countArr=arr.clone();
+		
 		 nowB=B;
 			
 	 
 		for(int i=0;i<N;i++) {
 			for(int j=0;j<M;j++) {
 				
-				if(countArr[i][j]!=nowHeight) {
+					if(arr[i][j]==nowHeight) {
+						continue;
+					}
 					
-					if(countArr[i][j]<nowHeight) {
+					else if(arr[i][j]<nowHeight) {
 						
-						howHeight=countArr[i][j];
-						while(howHeight<nowHeight) {
-
+						int cal = nowHeight - arr[i][j];
+						
+							nowB-=cal;
+							count+=cal;
 							
-							if(nowB==0) {
-								count=0;
-								break;
-							}//인벤토리에 아무것도 없다면 
-						
-							else {
-								
-								nowB--;
-								count+=1;
-								howHeight+=1;
-								
-							}
-						}
-					}//인벤토리에서 꺼내서 쌓는건 2번 작업 
+							
+						}//인벤토리에서 꺼내서 쌓는 작업
 					
-					else if(countArr[i][j]>nowHeight) {
-							howHeight=countArr[i][j];
-						while(howHeight>nowHeight) {
-							
-							nowB++;
-							count+=2;
-							howHeight-=1;
-							
-						}
+					
+					else if(arr[i][j]>nowHeight) {
 						
+						int cal = arr[i][j]- nowHeight;
+						
+							
+							nowB+=cal;
+							count+=(2*cal);
+	
 					}//땅을 깎아서 인벤토리에 넣는건 1번 작업(ok)
-				}
+				
 			}
-		}//모든 블록 검사 (모든 경우의 수 탐색)
+		}//for문 끝. 모든 블록 검사 (모든 경우의 수 탐색)
+		//System.out.println(count+" "+nowHeight+" "+nowB);
 		
-		//System.out.println(nowHeight+" "+count);
+		if(nowB<0) {
+			nowHeight++;
+			continue Loop1;
+		}
 		
-		if(count!=0 && minCount>count) {
+		else if(minCount>count) {
 			minCount=count;
 			resultHeight=nowHeight;
 		}//더 작은 값의 count가 나온다면 그 count를 저장 
@@ -131,6 +125,7 @@ public static void main(String[] args) throws IOException {
 			}//count가 같다면 더 큰 쪽의 height를 저장 
 		
 		}
+		
 		
 		nowHeight++;
 		
