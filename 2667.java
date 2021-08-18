@@ -102,6 +102,7 @@ public class Main2 {
 							if(ty>=0 && tx>=0 && ty<=N-1 && tx<=N-1) {
 								
 								//방문한적없고, 집이 있다면 방문예정>> queue에 넣어준다
+								//이 때는 방문 예정인거지 실제 방문은 아니므로 일단 count++하지 않는다
 								if(map[ty][tx]==1 && !visit[ty][tx]) {
 									queue.offer(new Index(ty,tx));
 									visit[ty][tx]=true;
