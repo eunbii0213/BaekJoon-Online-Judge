@@ -19,7 +19,7 @@ class Index4{
 	}
 }
 
-public class Main4 {
+public class Main{
 	
 	static int[][][] box;
 	static boolean[][][] visit;
