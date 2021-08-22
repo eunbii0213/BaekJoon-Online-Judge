@@ -22,6 +22,8 @@ public class Main{
 		 N = Integer.parseInt(st.nextToken());
 		 M = Integer.parseInt(st.nextToken());
 		 
+		
+		//어떤 경우에는 M을 뛰어넘고 돌아오는게 가장 빠른 길일 수도 있음 >> 배열 길이 넉넉하게 잡는다  
 		 visit = new int[200000];
 		
 		
@@ -73,7 +75,8 @@ public class Main{
 				}
 				
 				
-				//어떤 경우에는 M을 뛰어넘고 돌아오는게 가장 빠른 길일 수도 있다. 
+				
+				//tx < M+1이 아닌 tx < visit.length인 이유는 M이 N보다 더 작은 경우를 대비
 				if(tx>=0 && tx < visit.length && visit[tx]==0){
 					queue.add(tx);
 					
