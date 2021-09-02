@@ -1,5 +1,3 @@
-package PS;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,10 +8,6 @@ class Node{
 	public char data;
 	public Node leftChild;
 	public Node rightChild;
-	public int index;
-	public Node parentNode;
-
-	
 	
 	Node(char data){
 		
@@ -33,8 +27,6 @@ class Node{
 
 	public void setLeftChild(Node leftChild,Node node) {
 		this.leftChild = leftChild;
-		this.leftChild.index = node.index*2;
-		this.parentNode = node;
 		
 	}
 
@@ -47,40 +39,36 @@ class Node{
 
 	public void setRightChild(Node rightChild,Node node) {
 		this.rightChild = rightChild;
-		this.rightChild.index = node.index*2+1;
-		this.parentNode = node;
+		
 	}
-	
 	
 	public static void search(char data, Node current) {
 		
 
-			//종료 조건
-			if(data == current.data) {
-				
-				Test2.tempNode=current;
-				
-			}
+		//종료 조건
+		if(data == current.data) {
 			
+			Test2.tempNode = current;
 			
-			else {
-
-				if(current.leftChild!=null ) {
-					search(data, current.leftChild);
-				}
-				
-				
-				if(current.rightChild!=null ) {
-					search(data, current.rightChild);
-				}
-				
-			}
-			
-			
-				
-				
 		}
+		
+		
+		else {
+
+			if(current.leftChild!=null ) {
+				 search(data, current.leftChild);
+				 
+			}
 			
+			
+			if(current.rightChild!=null ) {
+				 search(data, current.rightChild);
+			}
+			
+		}
+
+	}
+
 		
 }	
 	
@@ -90,195 +78,71 @@ class Node{
 class Tree{
 	
 	public static Node root;
-	public static boolean[] visit;
-	public static int count=1;
-	static boolean hasLeftOnly=false;
-	static boolean hasBoth = false;
-	static boolean hasRightOnly = false;
-	static boolean flag = false;
 	public static Node temp;
 	
-	//root만 가지고 있으면 돼
+	//루트 설정
+	Tree(Node root){
+		this.root = root;
+	}
+	
+	static StringBuilder sb = new StringBuilder();
 	
 	
-	public static Stack<Node> stack;
-	
-	
-	public static void preOrder() {
+	public static void preOrder(Node node) {
 		
-		stack = new Stack<>();
+		//루트 출력 
+		System.out.print(node.data);
 		
-		stack.add(root);
-		visit[count]=true;
-
 		
-		while(!stack.isEmpty()) {
+		//왼쪽자식 출력 
+		if(node.leftChild!=null) {
+			preOrder(node.leftChild);
+		}
+		
+		//오른쪽 자식 출력
+		if(node.rightChild!=null) {
+			preOrder(node.rightChild);
+		}
 			
-			Node current = stack.pop();
-			System.out.print(current.data);
-			
-			//stack의 자료구조 특성상 오른쪽 노드 먼저넣어준다
-			if(current.rightChild!=null && visit[current.rightChild.index]==false){
-				stack.add(current.rightChild);
-				visit[current.rightChild.index]=true;
-				
-			}
-			
-			//왼쪽 노드를 두 번째로 넣어준다(먼저 pop되기 위해)
-			if(current.leftChild!=null && visit[current.leftChild.index]==false) {
-				stack.add(current.leftChild);
-				visit[current.leftChild.index]=true;
-				
-			}
-			
-			
-			
-		}//while문 끝 
+		
 		
 	}
 	
-	public static void inOrder() {
-		stack = new Stack<>();
+	public static void inOrder(Node node) {
 		
-		stack.add(root);
-		visit[count]=true;
-
-
-		while(!stack.isEmpty()) {
-			
-			Node current = stack.peek();
-			
-			
-			//오른쪽 노드 넣음
-			if(current.rightChild!=null && visit[current.rightChild.index]==false){
-				stack.add(current.rightChild);
-				visit[current.rightChild.index]=true;
-				
-			}
-			
-			//루트 넣음
-			
-			if(stack.contains(current.parentNode)) {
-				stack.remove(current.parentNode);
-				stack.add(current.parentNode);
-			}
 			
 		
-			//왼쪽 노드 넣어준다(먼저 pop되기 위해)
-			if(current.leftChild!=null && visit[current.leftChild.index]==false) {
-				stack.add(current.leftChild);
-				visit[current.leftChild.index]=true;
-				
-			}
+		if(node.leftChild!=null) {
+			inOrder(node.leftChild);
+		}
+		
+		
+		System.out.print(node.data);
 			
-			//넣을 수 있는 왼쪽자식이 아무것도 없다면 출력시작
-			if(current.leftChild==null) {
-				
-				for(int i=0;i<3;i++) {
-					
-					
-					if(stack.isEmpty()) {
-						
-						break;
-					}
-					
-					
-					current = stack.pop();
-					System.out.print(current.data);
-					
-			
-					
-					
-					//방문안한 오른쪽 노드있으면 먼저 넣음 
-					if(current.rightChild!=null && visit[current.rightChild.index]==false){
-						stack.add(current.rightChild);
-					}
-					
-						
-					
-					
-				}//for문 끝
-				
-				
-			}
-			
-		}//while문 끝 
+		
+		if(node.rightChild!=null) {
+			inOrder(node.rightChild);
+		}
+		
+		
 		
 }
-	
-	public static void postOrder() {
-		stack = new Stack<>();
+	//left, right 둘 다 없어야 출력 (left - > right)
+	public static void postOrder(Node node) {
 		
-		stack.add(root);
-		visit[count]=true;
-
-
-		while(!stack.isEmpty()) {
-			
-			Node current = stack.peek();
-			
-			if(stack.isEmpty()) {
-				//current = temp;
-			}
-			//System.out.print(current.data);
-			
-			
-			//루트 넣음
-			
-			if(stack.contains(current.parentNode)) {
-				stack.remove(current.parentNode);
-				stack.add(current.parentNode);
-			}
-			
-			//오른쪽 노드 넣음
-			if(current.rightChild!=null && visit[current.rightChild.index]==false){
-				stack.add(current.rightChild);
-				visit[current.rightChild.index]=true;
+		//왼쪽자식 출력 
+		if(node.leftChild!=null) {
+			postOrder(node.leftChild);
+		}
+	
+		//오른쪽 자식 출력
+		if(node.rightChild!=null) {
+			postOrder(node.rightChild);
+		}
 				
-			}
-			
-			//왼쪽 노드 넣어준다
-			if(current.leftChild!=null && visit[current.leftChild.index]==false) {
-				stack.add(current.leftChild);
-				visit[current.leftChild.index]=true;
-				
-			}
-			
-			
-			
-			//넣을 수 있는 자식이 아무것도 없다면 출력시작
-			if(current.leftChild==null) {
-				
-				for(int i=0;i<3;i++) {
+		System.out.print(node.data);
 					
-					
-					if(stack.isEmpty()) {
-						
-						break;
-					}
-					
-					//최종적으로 root값 저장
-					current = stack.pop();
-					System.out.print(current.data);
-					
-					//오른쪽 노드 먼저 넣음 
-					if(current.rightChild!=null && visit[current.rightChild.index]==false){
-						stack.add(current.rightChild);
-					}
-					
-					else if(current.leftChild!=null && visit[current.leftChild.index]==false) {
-							stack.add(current.leftChild);
-							
-					}
-						
-					
-					
-				}//for문 끝
-				
-				
-			}
-			
-		}//while문 끝 
+		
 	}
 	
 }
@@ -294,7 +158,6 @@ public class Test2 {
 		int N = Integer.parseInt(br.readLine());//이진 트리의 노드의 개수
 		
 		
-		Tree.visit = new boolean[2*N+2];
 		
 		//A B C입력 
 		
@@ -302,7 +165,7 @@ public class Test2 {
 		
 		Node node = new Node(input.charAt(0));
 		Tree.root = node;
-		Tree.root.index =1;
+		
 		
 		Node leftnode1 = new Node(input.charAt(2));
 		Node rightnode1 = new Node(input.charAt(4));
@@ -328,10 +191,9 @@ public class Test2 {
 		
 			input = br.readLine();
 			
-			
 			Node.search(input.charAt(0), Tree.root);
 			Node current = tempNode;
-			//System.out.println(current.data);
+			
 			Node leftnode = new Node(input.charAt(2));
 			Node rightnode = new Node(input.charAt(4));
 			
@@ -354,9 +216,16 @@ public class Test2 {
 		}
 			
 
-		//Tree.preOrder();
-		Tree.inOrder();
+		
+		Tree.preOrder(Tree.root);
+		System.out.println();
+		
+		Tree.inOrder(Tree.root);
+		System.out.println();
+		
+		Tree.postOrder(Tree.root);
 
 	}
 
 }
+
