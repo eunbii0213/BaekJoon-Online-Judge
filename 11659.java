@@ -1,48 +1,51 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
-
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader((new InputStreamReader(System.in)));
+        //N: 수의 개수, M:합을 구해야 하는 횟수
+        //N개의 수
+        //합을 구해야하는 구간 i, j
+
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+        List<Integer> sum = new ArrayList<>();
 
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
-        int[] arr = new int[n + 1]; //0~n값 저장
-        int[] sum = new int[n + 1];
 
-        arr[0]=0;
+        if(n == m && n == 1){
+            System.out.println(n);
+            return;
+        }
 
+        List<Integer> list = new ArrayList<>();
         st = new StringTokenizer(br.readLine());
-        for (int i = 1; i < n + 1; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
-        }
-        sum[0] = 0;
-        sum[1]= arr[1];
-
-        for (int i = 2; i < n + 1; i++) {
-            sum[i] = sum[i-1] + arr[i];
+        list.add(0);
+        for (int i = 1; i < n+1; i++) {
+            list.add(Integer.parseInt(st.nextToken()));
         }
 
-        int result = 0;
-        while (m > 0) {
+        sum.add(list.get(0));
+        sum.add(list.get(1));
+        for (int i = 2; i < n+1; i++) {
+            sum.add(list.get(i) + sum.get(i-1));
+        }
+
+
+        for (int count = 0; count < m; count++) {
             st = new StringTokenizer(br.readLine());
-            int startIndex = Integer.parseInt(st.nextToken());
-            int endIndex = Integer.parseInt(st.nextToken());
+            int i = Integer.parseInt(st.nextToken());
+            int j = Integer.parseInt(st.nextToken());
+            //j까지의 sum을 구하고
+            //0부터 i까지의 합은 빼준다
 
-            if(startIndex == endIndex){
-                System.out.println(arr[startIndex]);
-                m--;
-                continue;
-            }
-
-            result = sum[endIndex]-sum[startIndex-1];
-
-            System.out.println(result);
-            m--;
+            System.out.println(sum.get(j) - sum.get(i-1));
         }
     }
 }
