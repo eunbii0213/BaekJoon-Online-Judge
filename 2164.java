@@ -1,46 +1,31 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Main{
-		 
-		@SuppressWarnings("unchecked")
-		public static void main(String[] args) throws NumberFormatException, IOException{
-			
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			
-			
-			Queue list = new LinkedList<>();
-			int n=Integer.parseInt(br.readLine());//정수 n 입력 받음
-			int count=n;
-			
-			for(int i=1;i<=n;i++) {
-				list.offer(i);
-			}//1~n까지 arraylist에 넣음(오름차순)
-			
-			
-			
-			
-			while(count!=1) {
-				
-				list.poll(); //맨 앞을 삭제
-				
-				
-				list.offer(list.poll()); //맨 위 >> 맨 밑으로 복사
-				
-				
-				
-				count--;
-			}
-			
-			System.out.println(list.peek());
-			
-			
-			
-	}			
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        //큐 >> FIFO >> 처음 넣은 게 가장 먼저 나온다
+        // 1부터 N까지의 수 (1번카드가 제일 위)
+        //제일 위의 카드 버림
+        //그 다음, 제일 위에 있는 카드 밑으로 옮김
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+        Queue<Integer> q = new LinkedList();
+
+        for (int i = 1; i <= n; i++) {
+            q.offer(i);
+        }
+
+        while (q.size() > 1) {
+            q.poll();
+            Integer number = q.poll();
+            q.offer(number);
+        }
+
+        System.out.println(q.poll());
+    }
 }
