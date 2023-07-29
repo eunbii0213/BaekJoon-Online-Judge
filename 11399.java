@@ -5,34 +5,30 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        int[] arr = new int[n]; //인출에 걸린 시간
-        int sum=0; // 총 걸린 시간 (인출시간 + 대기시간)
-        int wait=0; // 총 대기시간
-
-        int count=0;
-        int lastPeople= n-1;//남은 대기인원
-
-        for(int i=0;i<n;i++){
-            arr[i]=Integer.parseInt(st.nextToken());
-            sum+=arr[i];
-        }
-        Arrays.sort(arr);
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 
 
-        for(int i=0;i<n-1;i++){
-            wait += (lastPeople*arr[i]); //j번째 사람이 인출하는데 걸린시간이 모두가 대기한 시간. (n-1)*arr[j];
-
-            lastPeople--;
+        Integer[] time = new Integer[n];
+        Integer[] result = new Integer[n];
+        for (int i = 0; i < n; i++) {
+            time[i] = Integer.parseInt(st.nextToken());
+            result[i] = time[i];
         }
 
-        System.out.println(sum+wait);
+        Arrays.sort(time);
 
+        int sum = 0;
+        for (int j = 0; j < n; j++) {
+            for (int i = j + 1; i < n; i++) {
+               result[i] += time[j];
+            }
+            sum += result[j];
+        }
 
-
+        System.out.println(sum);
     }
 }
