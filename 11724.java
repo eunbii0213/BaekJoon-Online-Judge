@@ -6,51 +6,50 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
-    public static List<Integer>[] arr;
-    public static boolean[] visit;
+    public static int count = 0;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 
-        int n = Integer.parseInt(st.nextToken());
-        visit = new boolean[n + 1];
-        arr = new ArrayList[n + 1];
-        int m = Integer.parseInt(st.nextToken());
+        int nodeCount = Integer.parseInt(st.nextToken());
+        int branchCount = Integer.parseInt(st.nextToken());
 
-        for (int i = 0; i < n + 1; i++) {
-            arr[i] = new ArrayList<Integer>();
+        boolean[] visit = new boolean[nodeCount + 1];
+        List<Integer>[] list = new ArrayList[nodeCount + 1];
+        for (int i = 0; i < nodeCount + 1; i++) {
+            list[i] = new ArrayList<>();
         }
 
-        for (int i = 0; i < m; i++) {
-            st = new StringTokenizer(br.readLine());
-            int s = Integer.parseInt(st.nextToken());
-            int e = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < branchCount; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            int first = Integer.parseInt(st.nextToken());
+            int second = Integer.parseInt(st.nextToken());
 
-            arr[s].add(e);
-            arr[e].add(s);
+            list[first].add(second);
+            list[second].add(first);
         }
 
-        int count = 0;
-        for (int i = 1; i < n + 1; i++) {
+        for (int i = 1; i < nodeCount + 1; i++) {
             if (!visit[i]) {
                 count++;
+                DFS(i, visit, list[i], list);
             }
-            DFS(i);
         }
 
         System.out.println(count);
     }
 
-    private static void DFS(final int i) {
-        if (visit[i]) {
-            return;
-        }
-        visit[i] = true;
-        for (Integer integer : arr[i]) {
-            if(visit[integer] == false){
-                DFS(integer);
+    public static void DFS(int start, boolean[] visit, List<Integer> list, List<Integer>[] list2) {
+        visit[start] = true;
+
+
+        for (Integer integer : list) {
+            if (!visit[integer]) {
+                visit[integer] = true;
+                DFS(integer, visit, list2[integer], list2);
             }
         }
+       
     }
 }
